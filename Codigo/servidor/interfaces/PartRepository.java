@@ -9,5 +9,6 @@ public interface PartRepository extends Remote{
     public Collection<Part> getParts() throws RemoteException;
     public void addPart(Part p) throws RemoteException;
     public Part getPartById(String id) throws RemoteException;
+    public String teste() throws RemoteException;
     
 }

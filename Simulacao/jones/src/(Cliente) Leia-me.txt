@@ -1,0 +1,10 @@
+Esta pasta é a pasta que simula o Cliente
+O cliente vai "rodar" no computador do usuário jones
+
+Para rodar o cliente coloque o terminal nesta pasta (src) e execute os seguintes comandos:
+
+java -Djava.security.policy=client.policy cliente.Cliente
+
+-> Vai aparecer uma janela pedindo o nome do seu servidor, coloque o nome do servidor que você escolheu quando iniciou o servidor.
+
+Deve aparecer no terminal a frase "Testando"

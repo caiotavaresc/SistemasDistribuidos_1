@@ -72,4 +72,9 @@ public class PartRepositoryEngine implements PartRepository{
         }
     }
     
+    public String teste()
+    {
+        return "Testando";
+    }
+    
 }
