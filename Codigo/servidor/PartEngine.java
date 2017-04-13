@@ -10,7 +10,7 @@ import interfaces.Part;
 import interfaces.PartRepository;
 import java.rmi.RemoteException;
 
-public class PartEngine implements Part, Serializable{
+public class PartEngine implements Part{
     
     int id;
     String name;
@@ -76,7 +76,7 @@ public class PartEngine implements Part, Serializable{
     }
     
     //Retorna o nome do repositório da peça
-    public String getRepName()
+    public String getRepName() throws RemoteException
     {
         return this.repository.getRepName();
     }

@@ -4,6 +4,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import interfaces.PartRepository;
+import interfaces.Part;
 
 import javax.swing.JOptionPane;
 
@@ -32,6 +33,10 @@ public class Cliente {
             int numPecas = rep.getNumPecas();
             System.out.println(numPecas);
             System.out.println(teste);
+            
+            Part p = rep.getPartById(2);
+            System.out.println("Peça " + p.getId() + ", Nome: " + p.getName() + ", Descr: " + p.getDescr() + "Repositório: " + p.getRepName());
+            
         } catch (Exception e) {
             System.err.println("ComputePi exception:");
             e.printStackTrace();

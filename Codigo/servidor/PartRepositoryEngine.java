@@ -42,11 +42,12 @@ public class PartRepositoryEngine implements PartRepository{
     }
     
     //Método que adiciona uma nova peça
-    public void addPart(String name, String descr, Map<Part, Integer> subParts)
+    public void addPart(String name, String descr, Map<Part, Integer> subParts) throws RemoteException
     {
         PartEngine p = new PartEngine(this.nextPartId, name, descr, subParts, this);
+        Part stub = (Part) UnicastRemoteObject.exportObject(p, 0);
         
-        this.PartsList.put(this.nextPartId ,p);
+        this.PartsList.put(this.nextPartId, stub);
         
         this.nextPartId++;
     }
