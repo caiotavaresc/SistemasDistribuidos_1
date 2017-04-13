@@ -3,7 +3,7 @@ package cliente;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import servidor.interfaces.PartRepository;
+import interfaces.PartRepository;
 
 import javax.swing.JOptionPane;
 
@@ -23,6 +23,14 @@ public class Cliente {
             
             //Executar um teste
             String teste = rep.teste();
+            
+            //Incluir duas peças
+            rep.addPart("Arroz", "Arrozito", null);
+            rep.addPart("Feijão", "Feijaozito", null);
+            
+            //Pegar o número de peças
+            int numPecas = rep.getNumPecas();
+            System.out.println(numPecas);
             System.out.println(teste);
         } catch (Exception e) {
             System.err.println("ComputePi exception:");

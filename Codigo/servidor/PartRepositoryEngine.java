@@ -1,22 +1,23 @@
-package servidor.componentes;
+package servidor;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import servidor.interfaces.PartRepository;
-import servidor.interfaces.Part;
+import interfaces.PartRepository;
+import interfaces.Part;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
 public class PartRepositoryEngine implements PartRepository{
     
     //Mapa de partes
-    Map<String, Part> PartsList;
+    Map<Integer, Part> PartsList;
     
     //Próximo ID de Parte
     int nextPartId;
@@ -27,23 +28,51 @@ public class PartRepositoryEngine implements PartRepository{
     public PartRepositoryEngine()
     {
         super();
+        
+        //O ID da próxima parte adicionada é 1
+        nextPartId = 1;
+        
+        this.PartsList = new HashMap<Integer, Part>();
     }
     
+    //Método que lista as peças do repositório
     public Collection<Part> getParts()
     {
         return this.PartsList.values();
     }
     
-    public void addPart(Part p)
+    //Método que adiciona uma nova peça
+    public void addPart(String name, String descr, Map<Part, Integer> subParts)
     {
-        PartsList.put(Integer.toString(nextPartId),p);
+        PartEngine p = new PartEngine(this.nextPartId, name, descr, subParts, this);
         
-        nextPartId++;
+        this.PartsList.put(this.nextPartId ,p);
+        
+        this.nextPartId++;
     }
     
-    public Part getPartById(String id)
+    //Método que busca uma peça pelo código no repositório
+    public Part getPartById(int id)
     {
         return PartsList.get(id);
+    }
+    
+    //Método que retorna o número de peças do servidor
+    public int getNumPecas()
+    {
+        return this.PartsList.size();
+    }
+    
+    //Método que retorna o nome do servidor
+    public String getRepName()
+    {
+        return this.repName;
+    }
+    
+    //Método que atribui um nome ao servidor
+    public void setRepName(String name)
+    {
+        this.repName = name;
     }
     
     public static void main(String[] args)
@@ -59,6 +88,8 @@ public class PartRepositoryEngine implements PartRepository{
             String name = JOptionPane.showInputDialog("Digite o nome deste repositório");
             
             PartRepository repository = new PartRepositoryEngine();
+            repository.setRepName(name);
+            
             PartRepository stub = (PartRepository) UnicastRemoteObject.exportObject(repository, 0);
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind(name, stub);

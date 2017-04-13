@@ -4,7 +4,7 @@ O servidor vai "rodar" no computador do usuário ctcca
 Para rodar o servidor, coloque o terminal nesta pasta (src) e execute os seguintes comandos:
 
 start rmiregistry
-java -Djava.security.policy=server.policy servidor.componentes.PartRepositoryEngine
+java -Djava.security.policy=server.policy servidor.PartRepositoryEngine
 
 -> Vai aparecer uma janela pedindo o nome do seu servidor, coloque qualquer nome e dê OK.
 
