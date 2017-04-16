@@ -5,10 +5,25 @@ import java.rmi.registry.Registry;
 
 import interfaces.PartRepository;
 import interfaces.Part;
+import cliente.FrontEnd;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 import javax.swing.JOptionPane;
 
 public class Cliente {
+    
+    public static Registry registry;
+    public static PartRepository rep;
+    
+    public Cliente(String servidor) throws RemoteException, NotBoundException{
+        if (System.getSecurityManager() == null) {
+            System.setSecurityManager(new SecurityManager());
+        }
+        
+        registry = LocateRegistry.getRegistry();
+        rep = (PartRepository) registry.lookup(servidor);
+}
     
     public static void main(String[] args)
     {
@@ -42,5 +57,29 @@ public class Cliente {
             e.printStackTrace();
         }
     }
+
+    public boolean conectaServidor() throws RemoteException, NotBoundException {
+            //Teste para ver se o servidor conectou - CAIO VERIFICAR
+            String teste = rep.teste();
+            boolean conectou = teste.isEmpty()? false : true;
+            return conectou;
+    }
+
+    String getPecas() throws RemoteException {
+        int numero = rep.getNumPecas();
+        return String.valueOf(numero);
+    }
+
+    String getListaPecas() throws RemoteException {
+        String ListaPecas = "";
+        Part p;
+        for (int i = 1; i < rep.getNumPecas(); i++) {
+            p = rep.getPartById(i);
+            ListaPecas = ListaPecas + i + " - " + p.getName() + "\n";
+        }
+        return ListaPecas;
+    }
+    
+    
     
 }

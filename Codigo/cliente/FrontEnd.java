@@ -27,6 +27,9 @@ public class FrontEnd extends javax.swing.JFrame {
     public FrontEnd() {
         initComponents();
     }
+    
+    //Instancia do cliente conectado a um servidor
+    public Cliente cliente;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -49,6 +52,7 @@ public class FrontEnd extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
@@ -109,15 +113,17 @@ public class FrontEnd extends javax.swing.JFrame {
             .addGap(0, 128, Short.MAX_VALUE)
         );
 
+        jLabel13.setText("jLabel13");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 222, Short.MAX_VALUE)
+            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jLabel7.setText("Examinar uma peça");
@@ -272,21 +278,22 @@ public class FrontEnd extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        //JOptionPane.showMessageDialog(rootPane, "Testando!!!");
-       try {
-            String servidor = jTextField1.getText();
-            Registry registry;
+        try {
+            // TODO add your handling code here:
             
-            //Teste do Servidor
-            registry = LocateRegistry.getRegistry();
-            PartRepository rep = (PartRepository) registry.lookup(servidor);
-            jLabel3.setText(servidor);
+            //Botao Conectar
+            cliente = new Cliente(jTextField1.getText());
+            jLabel3.setText(jTextField1.getText());
+            jTextField1.setText("");
+            jLabel5.setText(cliente.getPecas());
+            jLabel13.setText(cliente.getListaPecas());
+            
         } catch (Exception e) {
             e.printStackTrace();
         
         }
         
+                
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -305,7 +312,7 @@ public class FrontEnd extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -339,6 +346,7 @@ public class FrontEnd extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
