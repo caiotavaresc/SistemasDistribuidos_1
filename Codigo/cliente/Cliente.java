@@ -8,6 +8,7 @@ import interfaces.Part;
 import cliente.FrontEnd;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -73,11 +74,35 @@ public class Cliente {
     String getListaPecas() throws RemoteException {
         String ListaPecas = "";
         Part p;
-        for (int i = 1; i < rep.getNumPecas(); i++) {
+        for (int i = 1; i <= rep.getNumPecas(); i++) {
             p = rep.getPartById(i);
             ListaPecas = ListaPecas + i + " - " + p.getName() + "\n";
         }
         return ListaPecas;
+    }
+    
+    String getPecaUnica(int index) throws RemoteException{
+        String detalhes = "";
+        Part p = rep.getPartById(index);
+        //String [] pecaDetalhada = new String [2];
+        ArrayList pecaDetalhada1 = new ArrayList<String>();
+        
+        pecaDetalhada1.add("ID: " + index);
+        pecaDetalhada1.add("Nome: " + p.getName());
+        pecaDetalhada1.add("Descrição: " + p.getDescr());
+        //pecaDetalhada1.add("Numero de Subpecas: " + p.getNumSubcomp(index)); //Ver Caio
+        pecaDetalhada1.add("Tipo: " + p.getTipoPeca());
+        pecaDetalhada1.add("");
+        
+        //IMPLEMENTAR LISTA DE SUBPECAS
+        
+        //Monta String
+        for (int i = 0; i < pecaDetalhada1.size(); i++) {
+          detalhes = detalhes + pecaDetalhada1.get(i) + "\n";
+        }
+        
+        return detalhes;
+        
     }
     
     
