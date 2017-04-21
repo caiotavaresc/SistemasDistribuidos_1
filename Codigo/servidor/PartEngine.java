@@ -3,6 +3,7 @@ package servidor;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Iterator;
 import java.io.Serializable;
 
@@ -75,13 +76,21 @@ public class PartEngine implements Part{
         String texto = "";
         
             Set<Part> partes = this.subParts.keySet();
+            TreeSet<String> lista = new TreeSet<String>();
             Iterator<Part> it = partes.iterator();
             Part subp;
             
             while(it.hasNext())
             {
                 subp = it.next();
-                texto = texto + subp.getId() + " - " + subp.getName() + " [" + this.subParts.get(subp) + "] (" + subp.getRepName() + ")\n";
+                lista.add(subp.getId() + " - " + subp.getName() + " [" + this.subParts.get(subp) + "] (" + subp.getRepName() + ")");
+            }
+            
+            //Retornar a lista ordenada - Nao consegui com CompareTo
+            Iterator<String> it2 = lista.iterator();
+            while(it2.hasNext())
+            {
+                texto += it2.next() + "\n";
             }
         
         return texto;

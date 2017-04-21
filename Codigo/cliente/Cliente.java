@@ -5,13 +5,14 @@ import java.rmi.registry.Registry;
 
 import interfaces.PartRepository;
 import interfaces.Part;
-import cliente.FrontEnd;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Iterator;
 
 import javax.swing.JOptionPane;
@@ -150,15 +151,23 @@ public class Cliente {
     String getListaSubpAtual() throws RemoteException
     {
         Set<Part> s = Cliente.listaSubpAtual.keySet();
+        Set<String> lista = new TreeSet<String>();
         Iterator<Part> it = s.iterator();
         Part p;
-        
-        String texto = "";
         
         while(it.hasNext())
         {
             p = it.next();
-            texto = texto + p.getId() + " - " + p.getName() + " [" + Cliente.listaSubpAtual.get(p) + "] (" + p.getRepName() + ")\n";
+            lista.add(p.getId() + " - " + p.getName() + " [" + Cliente.listaSubpAtual.get(p) + "] (" + p.getRepName() + ")");
+        }
+        
+        //Iterar pela lista que está ordenada - Gambs pra ficar ordenado (Nao consegui com Comparator)
+        Iterator<String> it2 = lista.iterator();
+        String texto = "";
+        
+        while(it2.hasNext())
+        {
+            texto += it2.next() + "\n";
         }
         
         return texto;

@@ -28,5 +28,4 @@ public interface Part extends Remote{
     public String getRepName() throws RemoteException;
     public int getTipoPeca() throws RemoteException;
     public int getNumSubcomp(int tipo) throws RemoteException;
-    
 }
