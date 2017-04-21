@@ -69,6 +69,24 @@ public class PartEngine implements Part{
         return this.subParts;
     }
     
+    //Para reduzir o tráfego na rede, mandar a lista de subpeças por aqui mesmo
+    public String getSubpartsString() throws RemoteException
+    {
+        String texto = "";
+        
+            Set<Part> partes = this.subParts.keySet();
+            Iterator<Part> it = partes.iterator();
+            Part subp;
+            
+            while(it.hasNext())
+            {
+                subp = it.next();
+                texto = texto + subp.getId() + " - " + subp.getName() + " [" + this.subParts.get(subp) + "] (" + subp.getRepName() + ")\n";
+            }
+        
+        return texto;
+    }
+    
     //Retorna uma referência para o repositório da peça
     public PartRepository getRepository()
     {
@@ -95,8 +113,19 @@ public class PartEngine implements Part{
     {
         if(tipo==SUB_DIRETOS)
         {
-            //Número de subcomponentes diretos é o tamanho da lista
-            return this.subParts.size();
+            //Número de subcomponentes é a somatória das frequências da lista
+            Set<Part> p = this.subParts.keySet();
+            Iterator<Part> it = p.iterator();
+            int numP = 0;
+            Part part;
+            
+            while(it.hasNext())
+            {
+                part = it.next();
+                numP+=this.subParts.get(part);
+            }
+            
+            return numP;
         }
         else
         {
@@ -110,7 +139,7 @@ public class PartEngine implements Part{
             while(it.hasNext())
             {
                 parte = it.next();
-                numP+=this.numSubcompPrimitivos(parte.getSubparts());
+                numP += this.numSubcompPrimitivos(parte.getSubparts()) * this.subParts.get(parte);
             }
             
             return numP;
@@ -133,11 +162,10 @@ public class PartEngine implements Part{
             while(it.hasNext())
             {
                 p = it.next();
-                numP+=numSubcompPrimitivos(p.getSubparts());
+                numP += numSubcompPrimitivos(p.getSubparts()) * subPartsList.get(p);
             }
             
             return numP;
         }
     }
-    
 }

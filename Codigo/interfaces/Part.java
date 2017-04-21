@@ -22,6 +22,7 @@ public interface Part extends Remote{
     public void setDescr(String descr) throws RemoteException;
     
     public Map<Part, Integer> getSubparts() throws RemoteException;
+    public String getSubpartsString() throws RemoteException;
     
     public PartRepository getRepository() throws RemoteException;
     public String getRepName() throws RemoteException;
