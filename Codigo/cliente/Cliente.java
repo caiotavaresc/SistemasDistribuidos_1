@@ -1,4 +1,4 @@
-package cliente;
+﻿package cliente;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -28,6 +28,7 @@ public class Cliente {
     //Lista de subpecas atual com a qual as interaçõe ocorrem
     public static Map<Part, Integer> listaSubpAtual = new HashMap<Part, Integer>();
     
+    //Construtor da classe Cliente, que incializa as obrigatoriedades do Java RMI
     public Cliente(String servidor) throws RemoteException, NotBoundException{
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
@@ -35,10 +36,12 @@ public class Cliente {
         
         registry = LocateRegistry.getRegistry();
         rep = (PartRepository) registry.lookup(servidor);
-}
+    }
     
-    //Esse método MAIN foi feito para testes, mantivemos ele para manter o historico
-    //Nao e utilizado no contexto da aplicacao
+    /**********************************************************************************
+    Esse método MAIN foi feito para testes, mantivemos ele para manter o historico
+    Nao e utilizado no contexto da aplicacao
+    ***********************************************************************************/
     public static void main(String[] args)
     {
         //Abrir o Security Manager
@@ -72,36 +75,54 @@ public class Cliente {
         }
     }
 
+    //Metodo que testa se o servidor conectou
     public boolean conectaServidor() throws RemoteException, NotBoundException {
-            //Teste para ver se o servidor conectou - CAIO VERIFICAR
+            
             String teste = rep.teste();
             boolean conectou = teste.isEmpty()? false : true;
             return conectou;
     }
 
+    //Metodo que retorna uma String com o numero de pecas de um PartRepository 
     String getPecas() throws RemoteException {
         int numero = rep.getNumPecas();
         return String.valueOf(numero);
     }
 
+    //Metodo que retorna uma String com a lista de pecas, para ser exibida na GUI
     String getListaPecas() throws RemoteException {
+        
+        //String que ira conter a lista
         String ListaPecas = "";
+        
+        //Variavel auxiliar do tipo Part 
         Part p;
+        
+        //Laço for que monta a String com a lista
         for (int i = 1; i <= rep.getNumPecas(); i++) {
             p = rep.getPartById(i);
             ListaPecas = ListaPecas + i + " - " + p.getName() + "\n";
         }
+        
+        //Retorna a lista de peças
         return ListaPecas;
     }
     
+    //Metodo que retorna uma String com os detalhes de uma peca
     String getPecaUnica(int index) throws RemoteException{
+        
+        //Stirn que sera retornada no final
         String detalhes = "";
+        
+        //Peca que sera obtido o detalhe
         Part p = rep.getPartById(index);
         Cliente.pecaAtual = p;
         Map<Part, Integer> listaSubp = p.getSubparts();
         
+        //ArrayList de String, em que cada posicao é um campo com informaçoes
         ArrayList pecaDetalhada1 = new ArrayList<String>();
         
+        //Adiciona as informações dos campos no ArrayList
         pecaDetalhada1.add("ID: " + index);
         pecaDetalhada1.add("Nome: " + p.getName());
         pecaDetalhada1.add("Descrição: " + p.getDescr());
@@ -122,11 +143,12 @@ public class Cliente {
             pecaDetalhada1.add(p.getSubpartsString());
         }
         
-        //Monta String
+        //Monta a String de resposta
         for (int i = 0; i < pecaDetalhada1.size(); i++) {
           detalhes = detalhes + pecaDetalhada1.get(i) + "\n";
         }
         
+        //Retorna a string com os detalhes 
         return detalhes;
     }
     
@@ -150,26 +172,30 @@ public class Cliente {
     //Método que obtém em STRING a lista de subpeças atual
     String getListaSubpAtual() throws RemoteException
     {
+        //Variaveis que auxiliaram a montagem da String
         Set<Part> s = Cliente.listaSubpAtual.keySet();
         Set<String> lista = new TreeSet<String>();
         Iterator<Part> it = s.iterator();
         Part p;
         
+        //Percorre adicionando informacoes na lista
         while(it.hasNext())
         {
             p = it.next();
             lista.add(p.getId() + " - " + p.getName() + " [" + Cliente.listaSubpAtual.get(p) + "] (" + p.getRepName() + ")");
         }
         
-        //Iterar pela lista que está ordenada - Gambs pra ficar ordenado (Nao consegui com Comparator)
+        //Iterar pela lista que está ordenada
         Iterator<String> it2 = lista.iterator();
         String texto = "";
         
+        //Monta a string de retorno
         while(it2.hasNext())
         {
             texto += it2.next() + "\n";
         }
         
+        //Retorna a string com a lista de subpecas atual
         return texto;
     }
     
