@@ -7,6 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 import interfaces.PartRepository;
 import interfaces.Part;
+import java.net.InetAddress;
 
 import java.util.Collection;
 import java.util.Map;
@@ -87,12 +88,23 @@ public class PartRepositoryEngine implements PartRepository{
         {
             //Pedir o nome do repositório
             String name = JOptionPane.showInputDialog("Digite o nome deste repositório");
+            String porta = JOptionPane.showInputDialog("Digite o número da porta onde o RMI Registry roda nesta máquina");
+            
+            int _porta;
+            
+            if(porta.equals(""))
+                _porta = 1099;
+            else
+                _porta = Integer.valueOf(porta);
             
             PartRepository repository = new PartRepositoryEngine();
             repository.setRepName(name);
             
+            //Setar as configuracoes de NOME DO HOST
+            System.setProperty("java.rmi.server.hostname",InetAddress.getLocalHost().getHostName());
+            
             PartRepository stub = (PartRepository) UnicastRemoteObject.exportObject(repository, 0);
-            Registry registry = LocateRegistry.getRegistry();
+            Registry registry = LocateRegistry.getRegistry(_porta);
             registry.rebind(name, stub);
             
             System.out.println("PartRepository bound");
