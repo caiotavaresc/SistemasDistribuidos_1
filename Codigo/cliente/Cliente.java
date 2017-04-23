@@ -1,10 +1,13 @@
-﻿package cliente;
+package cliente;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import interfaces.PartRepository;
 import interfaces.Part;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
@@ -29,13 +32,15 @@ public class Cliente {
     public static Map<Part, Integer> listaSubpAtual = new HashMap<Part, Integer>();
     
     //Construtor da classe Cliente, que incializa as obrigatoriedades do Java RMI
-    public Cliente(String servidor) throws RemoteException, NotBoundException{
+    public Cliente(String servidor) throws RemoteException, NotBoundException, MalformedURLException{
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
         
-        registry = LocateRegistry.getRegistry();
-        rep = (PartRepository) registry.lookup(servidor);
+        /*registry = LocateRegistry.getRegistry();
+        rep = (PartRepository) registry.lookup(servidor);*/
+        
+        rep = (PartRepository) Naming.lookup(servidor);
     }
     
     /**********************************************************************************
@@ -50,7 +55,18 @@ public class Cliente {
         }
         
         try {
-            String name = JOptionPane.showInputDialog("Insira o nome do servidor que deseja conectar-se");
+            
+            /*String[] lista = Naming.list("//25.95.69.52:1099/");
+            int i;
+            
+            for(i = 0; i < lista.length; i++)
+            {
+                System.out.println(lista[i]);
+            }*/
+            
+            System.out.println(InetAddress.getLocalHost().getHostName());
+            
+            /*String name = JOptionPane.showInputDialog("Insira o nome do servidor que deseja conectar-se");
             Registry registry = LocateRegistry.getRegistry();
             PartRepository rep = (PartRepository) registry.lookup(name);
             
@@ -67,7 +83,7 @@ public class Cliente {
             System.out.println(teste);
             
             Part p = rep.getPartById(2);
-            System.out.println("Peça " + p.getId() + ", Nome: " + p.getName() + ", Descr: " + p.getDescr() + "Repositório: " + p.getRepName());
+            System.out.println("Peça " + p.getId() + ", Nome: " + p.getName() + ", Descr: " + p.getDescr() + "Repositório: " + p.getRepName());*/
             
         } catch (Exception e) {
             System.err.println("ComputePi exception:");
