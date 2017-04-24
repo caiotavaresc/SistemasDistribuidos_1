@@ -1,11 +1,11 @@
-Esta pasta � a pasta que simula o Servidor
-O servidor vai "rodar" no computador do usu�rio ctcca
+Esta pasta é a pasta que simula o Servidor
+O servidor vai "rodar" no computador do usuário ctcca
 
 Para rodar o servidor, coloque o terminal nesta pasta (src) e execute os seguintes comandos:
 
-start rmiregistry
+start rmiregistry (ou "rmiregistry &" se estiver no Mac OS X e no Linux)
 java -Djava.security.policy=server.policy servidor.PartRepositoryEngine
 
--> Vai aparecer uma janela pedindo o nome do seu servidor, coloque qualquer nome e d� OK.
+-> Vai aparecer uma janela pedindo a confirmação do seu IP, a porta que há a conexão e o nome do seu servidor. Após entrar com essas informações, dê OK.
 
 Deve aparecer no terminal a frase "PartRepository bound"
