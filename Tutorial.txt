@@ -1,2 +1,0 @@
-- Para instanciar um servidor, siga as instruções contidas no arquivo "Leia-me" no diretório "servidor"
-- Para instanciar um Cliente, siga as instruções contidas no arquivo "Leia-me" no diretório "cliente"
