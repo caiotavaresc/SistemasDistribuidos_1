@@ -87,8 +87,9 @@ public class PartRepositoryEngine implements PartRepository{
         try 
         {
             //Pedir o nome do repositório
+            String ip = JOptionPane.showInputDialog("Digite o IP desta máquina", InetAddress.getLocalHost().getHostAddress());
+            String porta = JOptionPane.showInputDialog("Digite o número da porta onde o RMI Registry roda nesta máquina", "1099");
             String name = JOptionPane.showInputDialog("Digite o nome deste repositório");
-            String porta = JOptionPane.showInputDialog("Digite o número da porta onde o RMI Registry roda nesta máquina");
             
             int _porta;
             
@@ -101,13 +102,14 @@ public class PartRepositoryEngine implements PartRepository{
             repository.setRepName(name);
             
             //Setar as configuracoes de NOME DO HOST
-            System.setProperty("java.rmi.server.hostname",InetAddress.getLocalHost().getHostName());
+            System.setProperty("java.rmi.server.hostname",ip);
             
             PartRepository stub = (PartRepository) UnicastRemoteObject.exportObject(repository, 0);
             Registry registry = LocateRegistry.getRegistry(_porta);
             registry.rebind(name, stub);
             
-            System.out.println("PartRepository bound");
+            System.out.println(name + ": PartRepository bound");
+            JOptionPane.showMessageDialog(null, "O servidor " + name + " foi iniciado com sucesso!");
         }
         catch (Exception e) 
         {

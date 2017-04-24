@@ -56,15 +56,15 @@ public class Cliente {
         
         try {
             
-            /*String[] lista = Naming.list("//25.95.69.52:1099/");
+            String[] lista = Naming.list("//"+args[0]+":"+args[1]+"/");
             int i;
             
             for(i = 0; i < lista.length; i++)
             {
                 System.out.println(lista[i]);
-            }*/
+            }
             
-            System.out.println(InetAddress.getLocalHost().getHostName());
+            //System.out.println(InetAddress.getLocalHost().getHostName());
             
             /*String name = JOptionPane.showInputDialog("Insira o nome do servidor que deseja conectar-se");
             Registry registry = LocateRegistry.getRegistry();
